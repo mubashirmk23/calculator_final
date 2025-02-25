@@ -163,7 +163,11 @@ class _StatefulWidget extends State<Calculatorpage1> {
 
   void calculation(String btnText) {
     if (btnText != 'AC' && btnText != '=') {
-      currentInput += btnText;
+      if (isOperator(btnText) && currentInput.isNotEmpty && isOperator(currentInput[currentInput.length - 1])) {
+        currentInput = currentInput.substring(0, currentInput.length - 1) + btnText;
+      } else {
+        currentInput += btnText;
+      }
     } else if (btnText == 'AC') {
       currentInput = '';
     } else if (btnText == '=') {
@@ -225,6 +229,10 @@ class _StatefulWidget extends State<Calculatorpage1> {
     setState(() {
       text = finalResult;
     });
+  }
+
+  bool isOperator(String btnText) {
+    return btnText == '+' || btnText == '-' || btnText == '*' || btnText == '/' || btnText == '%';
   }
 
   void handleOperation(String operation) {
